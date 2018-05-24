@@ -1,0 +1,28 @@
+{
+  "name": "filstem",
+  "version": "0.0.1",
+  "description": "Stemming Algorithm for Filipino Words",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/llagong/filstem.git"
+  },
+  "keywords": [
+    "tagalog",
+    "stemming",
+    "filipino",
+    "diksiyonaryo"
+  ],
+  "author": "Louis Anthony Agong",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/llagong/filstem/issues"
+  },
+  "homepage": "https://github.com/llagong/filstem#readme"
+}
