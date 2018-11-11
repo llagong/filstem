@@ -108,7 +108,8 @@ describe('#countSyllables()', function() {
     ['at', 1],
     ['kasama', 3],
     ['iba', 2],
-    ['umuwa', 3]
+    ['umuwa', 3],
+    ['t', 0]
   ].forEach(function(data) {
     let entry = data[0];
     let test = data[1];

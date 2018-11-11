@@ -41,10 +41,16 @@ function countSyllables(word) {
     return 0;
   }
 
-  return word
+  let match = word
     .toString() //For handling regex
     .replace('(?![aeiou])', '') //For regex. Removes negativelookahead for vowels
-    .match(/[aeiou]/g).length;
+    .match(/[aeiou]/g);
+
+  if (match) {
+    return match.length;
+  } else {
+    return 0;
+  }
 }
 
 module.exports = {
