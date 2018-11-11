@@ -1,6 +1,6 @@
 {
   "name": "filstem",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Stemming Algorithm for Filipino Words",
   "main": "index.js",
   "directories": {
