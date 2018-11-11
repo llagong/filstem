@@ -1,233 +1,61 @@
-"use strict";
+'use strict';
 
-let helper = require("./helper");
+let helper = require('./helper');
+
+const { prefixes, suffixes, infixes } = require('./affixes');
 
 function removePrefix(word) {
-  let prefixes = [
-    "ala-",
-    "alas-",
-    "anti",
-    "de-",
-    "des-",
-    "di-",
-    // 'ekstra-',
-    // 'elektro',
-    "ga",
-    "gaga",
-    "gangga",
-    "hi",
-    "him",
-    "hin",
-    "ikapakapagpaka",
-    "ikapakapagpa",
-    "ikapakapang",
-    "ikapakapag",
-    "ikapakapam",
-    "ikapakapan",
-    "ikapagpaka",
-    "ikapakipan",
-    "ikapakipag",
-    "ikapakipam",
-    "ikapakipa",
-    "ipakipag",
-    "ipagkang",
-    "ikapagpa",
-    "ikapaka",
-    "ikapaki",
-    "ikapang",
-    "ipakipa",
-    "ikapag",
-    "ikapam",
-    "ikapan",
-    "ipagka",
-    "ipagpa",
-    "ipaka",
-    "ipaki",
-    "ikapa",
-    "ipang",
-    "ikang",
-    "ipag",
-    "ikam",
-    "ikan",
-    "isa",
-    "ipa",
-
-    "kasing",
-    // 'kontra',
-    "kamaka",
-    "kanda",
-    "kasim",
-    "kasin",
-    "kamag",
-    "kaka",
-    "ka",
-
-    "labing",
-
-    "mangagsipagpaka",
-    "mangagsipag",
-    "mangagpaka",
-    "magsipagpa",
-    "makapagpa",
-    "mangagsi",
-    "mangagpa",
-    "magsipag",
-    "mangagka",
-    "magkang",
-    "magpaka",
-    "magpati",
-    "makapag",
-    "mapapag",
-    "mapang",
-    "mapasa",
-    "mapapa",
-    "mangag",
-    "manga",
-    // 'mikro',
-    "magka",
-    "magpa",
-    "magsa",
-    "mapag",
-    "mapam",
-    "mapan",
-    // 'meta',
-    "mapa",
-    "mang",
-    // 'mini',
-    "maka",
-    "maki",
-    // 'mala',
-    // 'mal',
-    "mam",
-    "man",
-    // 'may',
-    "ma",
-    "mag",
-
-    "nangagsipagpaka",
-    "nangagsipagpa",
-    "nagsipagpaka",
-    "nakapagpaka",
-    "nangagsipag",
-    "nangagpaka",
-    "nangagkaka",
-    "nagsipagpa",
-    "nakapagpa",
-    "nagsipag",
-    "nangagpa",
-    "nangagka",
-    "nangagsi",
-    "nakapag",
-    "nakipag",
-    "napapag",
-    "nagpaka",
-    "nagpati",
-    "nangag",
-    "napaka",
-    "napasa",
-    "nanga",
-    "nagka",
-    "nagpa",
-    "nagsa",
-    "nagsi",
-    "napag",
-    "naka",
-    "naki",
-    "nang",
-    "napa",
-    "nag",
-    "na",
-
-    "pagpapati",
-    "pagpapaka",
-    "pagpapa",
-    "pagsasa",
-    "pasasa",
-    "pakiki",
-    "pinaka",
-    "pinag",
-    "pinag",
-    "papag",
-    "pampa",
-    "panag",
-    "pagka",
-    "paka",
-    "paki",
-    "pala",
-    "pang",
-    "pani",
-    "papa",
-    "para",
-    "pasa",
-    "pati",
-    "pina",
-    "pag",
-    "pam",
-    "pan",
-    "pa",
-
-    // 'xeno',
-
-    // 'radyo',
-
-    "re",
-
-    "sang",
-    "sing",
-    "sam",
-    "san",
-    "sin",
-    "sa",
-
-    "tagapag",
-    "taga",
-    "tiga",
-    "tag",
-    "tig",
-    // 'uni',
-    "um"
-  ];
+  if (helper.countSyllables(word) < 3) {
+    return word;
+  }
 
   for (let i = 0; i < prefixes.length; i++) {
-    if (helper.hasPrefix(word, prefixes[i])) {
-      return word.slice(prefixes[i].length, word.length);
+    if (
+      helper.hasPrefix(word, prefixes[i]) &&
+      helper.countSyllables(word) - helper.countSyllables(prefixes[i]) > 1
+    ) {
+      return word.replace(prefixes[i], '').replace(/^-/, '');
     }
   }
+
   return word;
 }
 
 function prefixSoundChange(word) {
-  if (word[i] == "r") {
-    word[i] = "d";
+  if (word[i] == 'r') {
+    word[i] = 'd';
     return word;
   }
 }
 
 function removeSuffix(word) {
-  let suffixes = ["han", "hin", "an", "in"];
-
   let removed;
   for (let i = 0; i < suffixes.length; i++) {
-    if (helper.hasSuffix(word, suffixes[i])) {
+    if (
+      helper.hasSuffix(word, suffixes[i]) &&
+      helper.countSyllables(word) - helper.countSyllables(suffixes[i]) > 1
+    ) {
       word = word.slice(0, word.length - suffixes[i].length);
       removed = suffixes[i];
       break;
     }
   }
-
-  if (removed && removed.length == 3 && word[word.length - 1] == "u") {
-    word = helper.replaceAt(word, word.length - 1, "o");
+  if (removed && removed.length == 3 && word[word.length - 1] == 'u') {
+    word = helper.replaceAt(word, word.length - 1, 'o');
   }
 
-  if (removed && removed.length == 2 && word[word.length - 2] == "u") {
-    word = helper.replaceAt(word, word.length - 2, "o");
+  if (removed && removed.length == 2 && word[word.length - 2] == 'u') {
+    word = helper.replaceAt(word, word.length - 2, 'o');
+  }
+
+  if (removed && removed.length == 2 && word[word.length - 1] == 'u') {
+    word = helper.replaceAt(word, word.length - 1, 'o');
   }
 
   return word;
 }
 
 function removeInfix(word) {
-  let infixes = ["in", "um"];
   for (let i = 0; i < infixes.length > 0; i++) {
     let infix = infixes[i];
 
@@ -288,10 +116,10 @@ function stem(word) {
 }
 
 module.exports = {
-  stem: stem,
-  removePrefix: removePrefix,
-  removeSuffix: removeSuffix,
-  removeInfix: removeInfix,
-  removePartialReduplication: removePartialReduplication,
-  removeFullReduplication: removeFullReduplication
+  stem,
+  removePrefix,
+  removeSuffix,
+  removeInfix,
+  removePartialReduplication,
+  removeFullReduplication
 };
